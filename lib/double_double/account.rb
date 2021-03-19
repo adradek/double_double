@@ -32,7 +32,7 @@ module DoubleDouble
     self.table_name = 'double_double_accounts'
 
     attr_accessible :name, :contra, :number
-    
+
     has_many :credit_amounts
     has_many :debit_amounts
     has_many :credit_transactions, through: :credit_amounts, source: :transaction
@@ -51,7 +51,7 @@ module DoubleDouble
         raise(NoMethodError, "undefined method 'trial_balance'") unless self == DoubleDouble::Account
         Asset.balance - (Liability.balance + Equity.balance + Revenue.balance - Expense.balance)
       end
-      
+
       def balance
         raise(NoMethodError, "undefined method 'balance'") if self == DoubleDouble::Account
         accounts_balance = self.all.inject(Money.new(0)) {|sum, acct| acct.contra ? (sum - acct.balance) : (sum + acct.balance)}
@@ -77,7 +77,7 @@ module DoubleDouble
     protected
 
       def side_balance(is_debit, hash)
-        a = is_debit ? DoubleDouble::DebitAmount.scoped : DoubleDouble::CreditAmount.scoped
+        a = is_debit ? DoubleDouble::DebitAmount.all : DoubleDouble::CreditAmount.all
         a = a.where(account_id: self.id)
         a = a.by_context(hash[:context])                   if hash.has_key? :context
         a = a.by_subcontext(hash[:subcontext])             if hash.has_key? :subcontext
