@@ -21,6 +21,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'money'
   gem.add_dependency 'activerecord'
+  gem.add_dependency 'protected_attributes', '~>1.1.0'
   gem.add_development_dependency 'sqlite3'
   gem.add_development_dependency 'rspec', '~> 2.12'
   gem.add_development_dependency 'factory_girl'
